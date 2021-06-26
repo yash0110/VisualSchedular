@@ -1,2 +1,0 @@
-# VisualSchedular
-Time Schedular 
