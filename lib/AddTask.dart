@@ -18,6 +18,7 @@ class _AddTaskState extends State<AddTask> {
 
   List<TaskData> _taskList = [];
 
+
   _addRandomTask() {
     setState(() {
       _taskList.add(TaskData(TimeData(_time.hour, _time.minute),
