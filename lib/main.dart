@@ -44,24 +44,15 @@ class HomePage extends StatelessWidget {
             Container(
               margin: EdgeInsets.all(8),
               child: FloatingActionButton(
-                // onPressed: () {
-                //   Navigator.pushReplacement(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => Schedule(),
-                //     ),
-                //   );
-                // },
                 onPressed: () => showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
                     title: const Text('Enter Password'),
                     content: TextFormField(
+                      obscureText: true,
                       controller: textEditingControllerName,
                       onChanged: (value) => name = value,
                       decoration: InputDecoration(
-                          // labelText: "",
-                          // counterText: "",
                           contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 15)),
                       maxLength: 20,
