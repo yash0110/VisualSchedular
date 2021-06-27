@@ -15,7 +15,6 @@ class TaskView extends StatefulWidget {
 class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TaskData? _currentTask;
-  TaskData? _previousTask;
   List<TaskData> _taskList = [];
   late Timer _updateTimer;
   FlutterTts _flutterTts = FlutterTts();
@@ -74,9 +73,11 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
 
   Future<void> _updateState() async {
     if (mounted) {
+      final SharedPreferences prefs = await _prefs;
       _taskList = await loadTaskListAsync();
       if (_taskList.isEmpty) {
         await _saveProcessedTime(TimeData(0, 0));
+        await prefs.setString('lastTask', '');
       }
 
 
@@ -85,24 +86,18 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
         _currentTask = task;
         print('update current task');
       });
-      if (_previousTask != null) {
-        print('prev ${_previousTask!.name}');
-      }
+
+
+      String _previousTask = prefs.getString('lastTask') ?? '';
       if (_currentTask != null) {
         print('curr ${_currentTask!.name}');
-      }
-      if (_currentTask != null) {
-        String prev = '';
-        if (_previousTask != null) {
-          prev = _previousTask!.name;
-        }
-        if (_currentTask!.name != prev) {
+        if (_previousTask != _currentTask!.name) {
           _flutterTts.speak(_currentTask!.name);
+          await prefs.setString('lastTask', _currentTask!.name);
         }
       }
-      if (_previousTask != _currentTask) {
-        _previousTask = _currentTask;
-      }
+
+
     }
   }
 
