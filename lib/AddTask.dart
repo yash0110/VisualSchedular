@@ -18,54 +18,21 @@ class _AddTaskState extends State<AddTask> {
 
   List<TaskData> _taskList = [];
 
-  _addRandomTask() {
-    setState(() {
-      _taskList.add(TaskData(TimeData(_time.hour, _time.minute),
-          name.toString(), imageFile.toString()));
-      sortTaskList(_taskList);
-    });
-  }
-
   _saveTaskList() {
-    _addRandomTask();
-    _saveTaskListAsync(_taskList)
+    saveTaskListAsync(_taskList)
         .then((value) => print('save task list'))
         .onError((error, stackTrace) => print(error));
     _loadTaskList();
   }
 
   _loadTaskList() {
-    _loadTaskListAsync()
+    loadTaskListAsync()
         .then((value) => setState(() {
               _taskList = value;
               for (int i = 0; i < _taskList.length; i++)
                 print(_taskList[i].path);
             }))
         .onError((error, stackTrace) => print(error));
-  }
-
-  _clearTaskList() {
-    setState(() {
-      _taskList.clear();
-    });
-  }
-
-  Future<String> _getFilePath() async {
-    Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
-    String appDocumentsPath = appDocumentsDirectory.path;
-    String filePath = '$appDocumentsPath/task_list.json';
-    return filePath;
-  }
-
-  Future<void> _saveTaskListAsync(List<TaskData> taskList) async {
-    File file = File(await _getFilePath());
-    file.writeAsString(encodeTaskList(taskList));
-  }
-
-  Future<List<TaskData>> _loadTaskListAsync() async {
-    File file = File(await _getFilePath());
-    String fileContent = await file.readAsString();
-    return decodeTaskList(fileContent);
   }
 
   ////
@@ -194,8 +161,10 @@ class _AddTaskState extends State<AddTask> {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => Schedule()));
                   },
-                  child: Text("SAVE",
-                  style: TextStyle(fontSize: 20,color: Colors.white),),
+                  child: Text(
+                    "SAVE",
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
             ),

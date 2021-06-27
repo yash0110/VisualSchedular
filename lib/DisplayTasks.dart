@@ -47,11 +47,11 @@ class _ScheduleState extends State<Schedule> {
   List<TaskData> _taskList = [];
 
   _saveTaskList() {
-    _saveTaskListAsync(_taskList).then((value) => print('save task list')).onError((error, stackTrace) => print(error));
+    saveTaskListAsync(_taskList).then((value) => print('save task list')).onError((error, stackTrace) => print(error));
   }
 
   _loadTaskList() {
-    _loadTaskListAsync().then((value) =>
+    loadTaskListAsync().then((value) =>
         setState(() {
           _taskList = value;
           for(int i=0;i<_taskList.length;i++)
@@ -66,24 +66,6 @@ class _ScheduleState extends State<Schedule> {
       _saveTaskList();
       _loadTaskList();
     });
-  }
-
-  Future<String> _getFilePath() async {
-    Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
-    String appDocumentsPath = appDocumentsDirectory.path;
-    String filePath = '$appDocumentsPath/task_list.json';
-    return filePath;
-  }
-
-  Future<void> _saveTaskListAsync(List<TaskData> taskList) async {
-    File file = File(await _getFilePath());
-    file.writeAsString(encodeTaskList(taskList));
-  }
-  
-  Future<List<TaskData>> _loadTaskListAsync() async {
-    File file = File(await _getFilePath());
-    String fileContent = await file.readAsString();
-    return decodeTaskList(fileContent);
   }
 
   void initState() {

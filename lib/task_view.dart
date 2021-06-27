@@ -23,17 +23,6 @@ class _TaskViewState extends State<TaskView> {
     return filePath;
   }
 
-  Future<void> _saveTaskListAsync(List<TaskData> taskList) async {
-    File file = File(await _getFilePath());
-    file.writeAsString(encodeTaskList(taskList));
-  }
-
-  Future<List<TaskData>> _loadTaskListAsync() async {
-    File file = File(await _getFilePath());
-    String fileContent = await file.readAsString();
-    return decodeTaskList(fileContent);
-  }
-
   Future<DateTime?> _getProcessedTime() async {
     final SharedPreferences prefs = await _prefs;
     int? timestamp = prefs.getInt('process');
@@ -56,7 +45,7 @@ class _TaskViewState extends State<TaskView> {
 
   Future<List<TaskData>> _getTimeoutTask() async {
     DateTime? processedTime = await _getProcessedTime();
-    List<TaskData> list = await _loadTaskListAsync();
+    List<TaskData> list = await loadTaskListAsync();
     DateTime nowDateTime = DateTime.now();
     List<TaskData> result = [];
     TaskData? lastTask;
@@ -83,7 +72,7 @@ class _TaskViewState extends State<TaskView> {
   }
 
   Future<TaskData?> _getCurrentTask() async {
-    List<TaskData> list = await _loadTaskListAsync();
+    List<TaskData> list = await loadTaskListAsync();
     sortTaskList(list);
     TimeOfDay now = TimeOfDay.now();
     int minute = TimeData(now.hour, now.minute).toMinutes();
@@ -95,6 +84,9 @@ class _TaskViewState extends State<TaskView> {
         break;
       }
       result = task;
+      if (task.time.toMinutes() < TimeData(processedTime!.hour, processedTime.minute).toMinutes()) {
+        break;
+      }
     }
     DateTime taskDateTime = DateTime(nowDateTime.year, nowDateTime.month,
         nowDateTime.day, result!.time.hour, result.time.minute);
