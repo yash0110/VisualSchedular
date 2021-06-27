@@ -85,9 +85,23 @@ class _TaskViewState extends State<TaskView> {
         _currentTask = task;
         print('update current task');
       });
+      if (_previousTask != null) {
+        print('prev ${_previousTask!.name}');
+      }
+      if (_currentTask != null) {
+        print('curr ${_currentTask!.name}');
+      }
+      if (_currentTask != null) {
+        String prev = '';
+        if (_previousTask != null) {
+          prev = _previousTask!.name;
+        }
+        if (_currentTask!.name != prev) {
+          _flutterTts.speak(_currentTask!.name);
+        }
+      }
       if (_previousTask != _currentTask) {
         _previousTask = _currentTask;
-        _flutterTts.speak(_previousTask!.name);
       }
     }
   }
