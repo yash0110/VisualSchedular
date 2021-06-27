@@ -5,6 +5,7 @@ import 'dart:io';
 import 'task_data.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:math';
+
 class AddTask extends StatefulWidget {
   const AddTask({Key? key}) : super(key: key);
 
@@ -13,34 +14,34 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
-
   //Storing Data
-
 
   List<TaskData> _taskList = [];
 
   _addRandomTask() {
     setState(() {
-
-      _taskList.add(TaskData(TimeData(_time.hour, _time.minute), name.toString(), imageFile.toString()));
+      _taskList.add(TaskData(TimeData(_time.hour, _time.minute),
+          name.toString(), imageFile.toString()));
       sortTaskList(_taskList);
     });
   }
 
   _saveTaskList() {
     _addRandomTask();
-    _saveTaskListAsync(_taskList).then((value) => print('save task list')).onError((error, stackTrace) => print(error));
+    _saveTaskListAsync(_taskList)
+        .then((value) => print('save task list'))
+        .onError((error, stackTrace) => print(error));
     _loadTaskList();
   }
 
   _loadTaskList() {
-    _loadTaskListAsync().then((value) =>
-        setState(() {
-          _taskList = value;
-          for(int i=0;i<_taskList.length;i++)
-          print(_taskList[i].path);
-        })
-    ).onError((error, stackTrace) => print(error));
+    _loadTaskListAsync()
+        .then((value) => setState(() {
+              _taskList = value;
+              for (int i = 0; i < _taskList.length; i++)
+                print(_taskList[i].path);
+            }))
+        .onError((error, stackTrace) => print(error));
   }
 
   _clearTaskList() {
@@ -66,7 +67,6 @@ class _AddTaskState extends State<AddTask> {
     String fileContent = await file.readAsString();
     return decodeTaskList(fileContent);
   }
-
 
   ////
 
@@ -100,17 +100,17 @@ class _AddTaskState extends State<AddTask> {
     // TODO: implement initState
     _loadTaskList();
     super.initState();
-
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: (){
-            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Schedule()));
+          onPressed: () {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Schedule()));
           },
         ),
         title: Text('Add Task'),
@@ -129,11 +129,11 @@ class _AddTaskState extends State<AddTask> {
                   width: 300,
                   child: imageFile == null
                       ? Image.network(
-                      "https://www.pngitem.com/pimgs/m/289-2892105_empty-task-empty-icon-task-illustration-hd-png.png")
+                          "https://www.pngitem.com/pimgs/m/289-2892105_empty-task-empty-icon-task-illustration-hd-png.png")
                       : Image.file(
-                    imageFile!,
-                    fit: BoxFit.cover,
-                  ),
+                          imageFile!,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
             ),
@@ -141,8 +141,7 @@ class _AddTaskState extends State<AddTask> {
               padding: EdgeInsets.all(8),
               child: ElevatedButton(
                 onPressed: () async {
-                  PickedFile? pickedFile =
-                  await ImagePicker().getImage(
+                  PickedFile? pickedFile = await ImagePicker().getImage(
                     source: ImageSource.gallery,
                     maxWidth: 1800,
                     maxHeight: 1800,
@@ -162,17 +161,19 @@ class _AddTaskState extends State<AddTask> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 controller: textEditingControllerName,
-                onChanged: (value)=>name=value,
+                onChanged: (value) => name = value,
                 decoration: InputDecoration(
                     labelText: 'Task Name',
                     counterText: "",
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 15)
-                ),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 15)),
                 maxLength: 20,
                 keyboardType: TextInputType.name,
               ),
             ),
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             ElevatedButton(
               onPressed: _selectTime,
               child: Text('SELECT TIME'),
@@ -181,30 +182,29 @@ class _AddTaskState extends State<AddTask> {
             Text(
               'Selected time: ${_time.format(context)}',
             ),
-            TextButton(onPressed: (){_saveTaskList();
-            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Schedule()));}, child: Text("Save")),
+            Padding(
+              padding: const EdgeInsets.all(50),
+              child: Container(
+                height: 40,
+                width: 150,
+                child: RaisedButton(
+                  color: Colors.blue,
+                  onPressed: () {
+                    _saveTaskList();
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Schedule()));
+                  },
+                  child: Text("SAVE",
+                  style: TextStyle(fontSize: 20,color: Colors.white),),
+                ),
+              ),
+            ),
           ],
         ),
       ),
-      // body: Column(
-      //   children: [
-      //     Expanded(child: ListView(children: children)),
-      //     TextButton(onPressed: (){
-      //       print(imageFile);
-      //       print(name);
-      //       print(_time.hour);
-      //       return _addRandomTask();
-      //
-      //     }, child: Text("Add Random Task")),
-      //     TextButton(onPressed: _saveTaskList, child: Text("Save")),
-      //     TextButton(onPressed: _loadTaskList, child: Text("Load")),
-      //     TextButton(onPressed: _clearTaskList, child: Text("Clear")),
-      //   ],
-      // ),
     );
   }
 }
-
 
 ThemeData _buildShrineTheme() {
   final ThemeData base = ThemeData.light();
@@ -237,22 +237,22 @@ IconThemeData _customIconTheme(IconThemeData original) {
 TextTheme _buildShrineTextTheme(TextTheme base) {
   return base
       .copyWith(
-    caption: base.caption!.copyWith(
-      fontWeight: FontWeight.w400,
-      fontSize: 14,
-      letterSpacing: defaultLetterSpacing,
-    ),
-    button: base.button!.copyWith(
-      fontWeight: FontWeight.w500,
-      fontSize: 14,
-      letterSpacing: defaultLetterSpacing,
-    ),
-  )
+        caption: base.caption!.copyWith(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+          letterSpacing: defaultLetterSpacing,
+        ),
+        button: base.button!.copyWith(
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
+          letterSpacing: defaultLetterSpacing,
+        ),
+      )
       .apply(
-    fontFamily: 'Rubik',
-    displayColor: shrineBrown900,
-    bodyColor: shrineBrown900,
-  );
+        fontFamily: 'Rubik',
+        displayColor: shrineBrown900,
+        bodyColor: shrineBrown900,
+      );
 }
 
 const ColorScheme _shrineColorScheme = ColorScheme(
