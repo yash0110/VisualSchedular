@@ -16,6 +16,7 @@ class _TaskViewState extends State<TaskView> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TaskData? _currentTask;
   List<TaskData> _taskList = [];
+  late Timer _updateTimer;
   FlutterTts flutterTts = FlutterTts();
 
   Future<DateTime?> _getProcessedTime() async {
@@ -71,13 +72,13 @@ class _TaskViewState extends State<TaskView> {
   }
 
   Future<void> _updateState() async {
-    _taskList = await loadTaskListAsync();
-    if (_taskList.isEmpty) {
-      await _saveProcessedTime(TimeData(0, 0));
-    }
+    if (mounted) {
+      _taskList = await loadTaskListAsync();
+      if (_taskList.isEmpty) {
+        await _saveProcessedTime(TimeData(0, 0));
+      }
 
-    TaskData? task = await _getCurrentTask(_taskList);
-    if (task != _currentTask && mounted) {
+      TaskData? task = await _getCurrentTask(_taskList);
       setState(() {
         _currentTask = task;
         print('update current task');
@@ -89,14 +90,13 @@ class _TaskViewState extends State<TaskView> {
   void initState() {
     super.initState();
     _updateState();
-    Timer.periodic(Duration(seconds: 5), (timer) {
+    _updateTimer = Timer.periodic(Duration(seconds: 5), (timer) {
       _updateState();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     if (_currentTask != null) {
       TaskData task = _currentTask!;
 
@@ -128,7 +128,6 @@ class _TaskViewState extends State<TaskView> {
         ),
       );
     } else {
-
       // Widget when no task available
       return Center(
           child: Text(
