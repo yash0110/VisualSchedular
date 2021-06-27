@@ -15,9 +15,10 @@ class TaskView extends StatefulWidget {
 class _TaskViewState extends State<TaskView> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TaskData? _currentTask;
+  TaskData? _previousTask;
   List<TaskData> _taskList = [];
   late Timer _updateTimer;
-  FlutterTts flutterTts = FlutterTts();
+  FlutterTts _flutterTts = FlutterTts();
 
   Future<DateTime?> _getProcessedTime() async {
     final SharedPreferences prefs = await _prefs;
@@ -78,11 +79,16 @@ class _TaskViewState extends State<TaskView> {
         await _saveProcessedTime(TimeData(0, 0));
       }
 
+
       TaskData? task = await _getCurrentTask(_taskList);
       setState(() {
         _currentTask = task;
         print('update current task');
       });
+      if (_previousTask != _currentTask) {
+        _previousTask = _currentTask;
+        _flutterTts.speak(_previousTask!.name);
+      }
     }
   }
 
