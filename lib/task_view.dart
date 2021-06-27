@@ -122,7 +122,7 @@ class _TaskViewState extends State<TaskView> {
   }
 
   Future<void> _updateCurrentTask() async {
-    print('update');
+    // print('update');
     List<TaskData> timeout = await _getTimeoutTask();
     if (timeout.isNotEmpty) {
       TaskData last = timeout.last;
@@ -142,7 +142,7 @@ class _TaskViewState extends State<TaskView> {
               _currentTask = value;
             }))
         .catchError((error) {
-      print(error);
+      // print(error);
     });
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visual_schedular/AddTask.dart';
+import 'package:visual_schedular/main.dart';
 import 'dart:io';
 import 'task_data.dart';
 import 'package:path_provider/path_provider.dart';
@@ -96,6 +97,12 @@ class _ScheduleState extends State<Schedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: (){
+            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>MyApp()));
+          },
+        ),
         title: Text('Visual Schedular'),
         centerTitle: true,
         actions: [

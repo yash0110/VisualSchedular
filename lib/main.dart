@@ -27,10 +27,7 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         actions: [
           FloatingActionButton(onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Schedule()),
-            );
+            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Schedule()));
           },
             child: Icon(Icons.add),)
         ],
