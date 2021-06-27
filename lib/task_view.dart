@@ -12,7 +12,7 @@ class TaskView extends StatefulWidget {
   _TaskViewState createState() => _TaskViewState();
 }
 
-class _TaskViewState extends State<TaskView> {
+class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TaskData? _currentTask;
   List<TaskData> _taskList = [];
@@ -94,6 +94,22 @@ class _TaskViewState extends State<TaskView> {
     });
   }
 
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 2),
+    vsync: this,
+  )..repeat(reverse: true);
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.fastOutSlowIn,
+  );
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -114,18 +130,21 @@ class _TaskViewState extends State<TaskView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
 
-              Container(
-                  height: 600,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.contain,
-                          image: FileImage(
-                              File(
-                                task.path.substring(7, task.path.length - 1),
+              ScaleTransition(
+                scale: _animation,
+                child: Container(
+                    height: 400,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.contain,
+                            image: FileImage(
+                                File(
+                                  task.path.substring(7, task.path.length - 1),
+                              ),
                             ),
-                          ),
-                      ),
-                  ),
+                        ),
+                    ),
+                ),
               ),
               //Image.file(File(task.path.substring(7, task.path.length - 1))),
               Center(
