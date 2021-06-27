@@ -106,6 +106,7 @@ class _ScheduleState extends State<Schedule> {
         padding: EdgeInsets.all(8),
         child: ListView.builder(
             itemBuilder: (context, index) {
+              print(_taskList[index].path);
               return Container(
                   decoration: BoxDecoration(color: Colors.white),
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),

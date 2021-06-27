@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visual_schedular/DisplayTasks.dart';
+import 'package:visual_schedular/task_view.dart';
 void main() {
   runApp(MyApp());
 }
@@ -34,9 +35,7 @@ class HomePage extends StatelessWidget {
             child: Icon(Icons.add),)
         ],
       ),
-      body: SingleChildScrollView(
-
-      ),
+      body: TaskView()
     );
   }
 }
