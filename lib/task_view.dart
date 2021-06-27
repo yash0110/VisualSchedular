@@ -183,11 +183,33 @@ class _TaskViewState extends State<TaskView> with TickerProviderStateMixin {
       );
     } else {
       // Widget when no task available
-      return Center(
-          child: Text(
-        'No Pending Tasks, Good Job!!!',
-        style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
-      ));
+      return Container(
+
+        decoration: new BoxDecoration(
+          borderRadius: new BorderRadius.circular(16.0),
+          color: Colors.white,
+        ),
+        margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+                Center(
+                  child: Text(
+                  'No Pending Tasks,',
+                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
+              ),
+                ),
+              Center(
+                  child: Text(
+                  'Good Job!!!',
+                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
+                  ),
+                ),
+            ],
+      ),
+      );
     }
 
     // Widget

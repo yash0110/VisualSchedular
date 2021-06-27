@@ -49,7 +49,7 @@ class _ScheduleState extends State<Schedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purpleAccent[700],
+        backgroundColor: Colors.deepPurple[600],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: (){
@@ -65,76 +65,94 @@ class _ScheduleState extends State<Schedule> {
           ),),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: ()=>_clearTaskList(),icon: Icon(Icons.delete),)
+          IconButton(
+            onPressed: ()=>_clearTaskList(),icon: Icon(Icons.delete),
+          )
         ],
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(8),
-        child: ListView.builder(
-            itemBuilder: (context, index) {
-              print(_taskList[index].path);
-              return Container(
-                  decoration: BoxDecoration(color: Colors.white),
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 140,
-                            height: 130,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: FileImage(File(_taskList[index].path.substring(7,_taskList[index].path.length-1)))
-                                )
-                            )
-                        )
+      backgroundColor: Colors.indigo[50],
+      body: Container(
+        margin: EdgeInsets.all(15),
+        decoration: new BoxDecoration(
+          borderRadius: new BorderRadius.circular(16.0),
+          color: Colors.white,
+        ),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(16,0,16,24),
+          child: ListView.builder(
+              itemBuilder: (context, index) {
+                print(_taskList[index].path);
+                return Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                        ),
                       ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              _taskList[index].name,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.brown),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  _taskList[index].time.hour.toString(),
-                                  style: TextStyle(fontSize: 50),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  ":",
-                                  style: TextStyle(fontSize: 50),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  _taskList[index].time.minute.toString(),
-                                  style: TextStyle(fontSize: 50),
-                                ),
-                              ),
-                            ],
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 140,
+                              height: 130,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: FileImage(File(_taskList[index].path.substring(7,_taskList[index].path.length-1)))
+                                  )
+                              )
                           )
-                        ],
-                      )
-                    ],
-                  ));
-            },
-            itemCount: _taskList.length,
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics()),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                _taskList[index].name,
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    _taskList[index].time.hour.toString(),
+                                    style: TextStyle(fontSize: 30),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    ":",
+                                    style: TextStyle(fontSize: 30),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    _taskList[index].time.minute.toString(),
+                                    style: TextStyle(fontSize: 30),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ));
+              },
+              itemCount: _taskList.length,
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics()),
+        ),
       ),
       floatingActionButton: Container(
         alignment: Alignment.bottomCenter,
@@ -143,7 +161,7 @@ class _ScheduleState extends State<Schedule> {
             Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>AddTask()));
           },
           child: const Icon(Icons.add),
-          backgroundColor: Colors.purpleAccent[700],
+          backgroundColor: Colors.deepPurple[600],
         ),
       ),
     );
