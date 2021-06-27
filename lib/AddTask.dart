@@ -44,6 +44,34 @@ class _AddTaskState extends State<AddTask> {
         .onError((error, stackTrace) => print(error));
   }
 
+  _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+        print(imageFile);
+        print("PRINTLINE HELLO");
+      });
+    }
+  }
+
+  _getFromCamera() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
   ////
 
   final _formKey = GlobalKey<FormState>();
@@ -115,25 +143,22 @@ class _AddTaskState extends State<AddTask> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: ElevatedButton(
-                onPressed: () async {
-                  PickedFile? pickedFile = await ImagePicker().getImage(
-                    source: ImageSource.gallery,
-                    maxWidth: 1800,
-                    maxHeight: 1800,
-                  );
-                  if (pickedFile != null) {
-                    setState(() {
-                      imageFile = File(pickedFile.path);
-                      print(imageFile);
-                      print("PRINTLINE HELLO");
-                    });
-                  }
-                },
-                child: Text("PICK FROM GALLERY"),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: (){
+                    _getFromCamera();
+                  },
+                  child: Text("TAKE A PICTURE"),
+                ),
+                ElevatedButton(
+                  onPressed: (){
+                    _getFromGallery();
+                  },
+                  child: Text("PICK FROM GALLERY"),
+                ),
+              ]
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
