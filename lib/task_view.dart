@@ -12,12 +12,13 @@ class TaskView extends StatefulWidget {
   _TaskViewState createState() => _TaskViewState();
 }
 
-class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
+class _TaskViewState extends State<TaskView> with TickerProviderStateMixin {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TaskData? _currentTask;
   List<TaskData> _taskList = [];
   late Timer _updateTimer;
   FlutterTts _flutterTts = FlutterTts();
+  static String _prevTaskName = '';
 
   Future<DateTime?> _getProcessedTime() async {
     final SharedPreferences prefs = await _prefs;
@@ -72,14 +73,12 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
   }
 
   Future<void> _updateState() async {
-    if (mounted) {
-      final SharedPreferences prefs = await _prefs;
+    if (isOnTop(context)) {
       _taskList = await loadTaskListAsync();
       if (_taskList.isEmpty) {
         await _saveProcessedTime(TimeData(0, 0));
-        await prefs.setString('lastTask', '');
+        _prevTaskName = '';
       }
-
 
       TaskData? task = await _getCurrentTask(_taskList);
       setState(() {
@@ -87,27 +86,28 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
         print('update current task');
       });
 
-
-      String _previousTask = prefs.getString('lastTask') ?? '';
       if (_currentTask != null) {
         print('curr ${_currentTask!.name}');
-        if (_previousTask != _currentTask!.name) {
+        if (_prevTaskName != _currentTask!.name) {
           _flutterTts.speak(_currentTask!.name);
-          await prefs.setString('lastTask', _currentTask!.name);
+          _prevTaskName = _currentTask!.name;
         }
       }
-
-
     }
+  }
+
+  bool isOnTop(BuildContext context) {
+    return ModalRoute.of(context)!.isCurrent;
   }
 
   @override
   void initState() {
     super.initState();
     _updateState();
-    _updateTimer = Timer.periodic(Duration(seconds: 5), (timer) {
+    _updateTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       _updateState();
     });
+    print('init');
   }
 
   late final AnimationController _controller = AnimationController(
@@ -123,8 +123,9 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
   void dispose() {
     super.dispose();
     _controller.dispose();
+    _updateTimer.cancel();
+    print('cancel');
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -137,39 +138,38 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
           borderRadius: new BorderRadius.circular(16.0),
           color: Colors.white,
         ),
-        margin: EdgeInsets.fromLTRB(15, 15,15, 0),
+        margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
         padding: EdgeInsets.all(20),
         child: GestureDetector(
           onLongPress: _longPress,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-
               ScaleTransition(
                 scale: _animation,
                 child: Container(
-                    height: 400,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.contain,
-                            image: FileImage(
-                                File(
-                                  task.path.substring(7, task.path.length - 1),
-                              ),
-                            ),
+                  height: 400,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.contain,
+                      image: FileImage(
+                        File(
+                          task.path.substring(7, task.path.length - 1),
                         ),
+                      ),
                     ),
+                  ),
                 ),
               ),
               //Image.file(File(task.path.substring(7, task.path.length - 1))),
               Center(
                   child: Text(
-                    task.name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 50,
-                    ),
-                  )),
+                task.name,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 50,
+                ),
+              )),
               Center(
                   child: Text(
                 'Longpress screen after task is done',
@@ -177,7 +177,6 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
                   fontSize: 18,
                 ),
               )),
-
             ],
           ),
         ),
