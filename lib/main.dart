@@ -28,107 +28,91 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.calendar_today),
-        backgroundColor: Colors.deepPurple[600],
-        title: Text(
-          'Visual Schedular',
-          style: TextStyle(
-            fontFamily: 'title',
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          Container(
-            margin: EdgeInsets.all(8),
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Schedule()));
-              },
-              child: Icon(
-                Icons.edit,
-
-              ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.deepPurple[600],
-            ),
-          )
-        ],
-      ),
-        body: TaskView(),
-      bottomNavigationBar: new Container(
-        alignment: Alignment.bottomCenter,
-        margin: EdgeInsets.fromLTRB(20, 0,20,20),
-        height: 40.0,
-        child: Text(
-            'Scheduling made Accessible',
-          style: TextStyle(
-            fontFamily: 'italic',
-            fontSize: 20,
-            color: Colors.deepPurple[600],
-          ),
-
-        ),
-      ),
-      backgroundColor: Colors.indigo[50],
-    );
         appBar: AppBar(
           leading: Icon(Icons.calendar_today),
-          title: Text('Visual Schedular'),
+          backgroundColor: Colors.deepPurple[600],
+          title: Text(
+            'Visual Schedular',
+            style: TextStyle(
+              fontFamily: 'title',
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           centerTitle: true,
           actions: [
-            FloatingActionButton(
-              // onPressed: () {
-              //   Navigator.pushReplacement(
-              //     context,
-              //     MaterialPageRoute(
-              //       builder: (context) => Schedule(),
-              //     ),
-              //   );
-              // },
-              onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Enter Password'),
-                  content: TextFormField(
-                    controller: textEditingControllerName,
-                    onChanged: (value) => name = value,
-                    decoration: InputDecoration(
-                        // labelText: "",
-                        // counterText: "",
-                        contentPadding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 15)),
-                    maxLength: 20,
-                    keyboardType: TextInputType.name,
+            Container(
+              margin: EdgeInsets.all(8),
+              child: FloatingActionButton(
+                // onPressed: () {
+                //   Navigator.pushReplacement(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => Schedule(),
+                //     ),
+                //   );
+                // },
+                onPressed: () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Enter Password'),
+                    content: TextFormField(
+                      controller: textEditingControllerName,
+                      onChanged: (value) => name = value,
+                      decoration: InputDecoration(
+                          // labelText: "",
+                          // counterText: "",
+                          contentPadding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 15)),
+                      maxLength: 20,
+                      keyboardType: TextInputType.name,
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'Cancel'),
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          if (name==password){
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Schedule(),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
                   ),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'Cancel'),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        if (name==password){
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Schedule(),
-                            ),
-                          );
-                        }
-                      },
-                      child: const Text('OK'),
-                    ),
-                  ],
                 ),
+                child: Icon(Icons.edit),
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.deepPurple[600],
               ),
-              child: Icon(Icons.add),
             )
           ],
         ),
-        body: TaskView());
+        body: TaskView(),
+      bottomNavigationBar: new Container(
+      alignment: Alignment.bottomCenter,
+      margin: EdgeInsets.fromLTRB(20, 0,20,20),
+      height: 40.0,
+      child: Text(
+        'Scheduling made Accessible',
+        style: TextStyle(
+          fontFamily: 'italic',
+          fontSize: 20,
+          color: Colors.deepPurple[600],
+        ),
+
+      ),
+    ),
+    backgroundColor: Colors.indigo[50],
+    );
+
   }
 }
 
