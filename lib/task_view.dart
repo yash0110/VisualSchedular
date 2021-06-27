@@ -15,8 +15,10 @@ class TaskView extends StatefulWidget {
 class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TaskData? _currentTask;
+  TaskData? _previousTask;
   List<TaskData> _taskList = [];
-  FlutterTts flutterTts = FlutterTts();
+  late Timer _updateTimer;
+  FlutterTts _flutterTts = FlutterTts();
 
   Future<DateTime?> _getProcessedTime() async {
     final SharedPreferences prefs = await _prefs;
@@ -71,17 +73,36 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
   }
 
   Future<void> _updateState() async {
-    _taskList = await loadTaskListAsync();
-    if (_taskList.isEmpty) {
-      await _saveProcessedTime(TimeData(0, 0));
-    }
+    if (mounted) {
+      _taskList = await loadTaskListAsync();
+      if (_taskList.isEmpty) {
+        await _saveProcessedTime(TimeData(0, 0));
+      }
 
-    TaskData? task = await _getCurrentTask(_taskList);
-    if (task != _currentTask && mounted) {
+
+      TaskData? task = await _getCurrentTask(_taskList);
       setState(() {
         _currentTask = task;
         print('update current task');
       });
+      if (_previousTask != null) {
+        print('prev ${_previousTask!.name}');
+      }
+      if (_currentTask != null) {
+        print('curr ${_currentTask!.name}');
+      }
+      if (_currentTask != null) {
+        String prev = '';
+        if (_previousTask != null) {
+          prev = _previousTask!.name;
+        }
+        if (_currentTask!.name != prev) {
+          _flutterTts.speak(_currentTask!.name);
+        }
+      }
+      if (_previousTask != _currentTask) {
+        _previousTask = _currentTask;
+      }
     }
   }
 
@@ -89,7 +110,7 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _updateState();
-    Timer.periodic(Duration(seconds: 5), (timer) {
+    _updateTimer = Timer.periodic(Duration(seconds: 5), (timer) {
       _updateState();
     });
   }
@@ -112,7 +133,6 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
     if (_currentTask != null) {
       TaskData task = _currentTask!;
 
@@ -168,7 +188,6 @@ class _TaskViewState extends State<TaskView>  with TickerProviderStateMixin {
         ),
       );
     } else {
-
       // Widget when no task available
       return Center(
           child: Text(
