@@ -49,13 +49,20 @@ class _ScheduleState extends State<Schedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.purpleAccent[700],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: (){
             Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>MyApp()));
           },
         ),
-        title: Text('Visual Schedular'),
+        title: Text(
+          'Schedule',
+          style: TextStyle(
+            fontFamily: 'title',
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),),
         centerTitle: true,
         actions: [
           IconButton(onPressed: ()=>_clearTaskList(),icon: Icon(Icons.delete),)
@@ -129,12 +136,15 @@ class _ScheduleState extends State<Schedule> {
             shrinkWrap: true,
             physics: ClampingScrollPhysics()),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>AddTask()));
-        },
-        child: const Icon(Icons.add),
-        backgroundColor: Colors.green,
+      floatingActionButton: Container(
+        alignment: Alignment.bottomCenter,
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>AddTask()));
+          },
+          child: const Icon(Icons.add),
+          backgroundColor: Colors.purpleAccent[700],
+        ),
       ),
     );
   }

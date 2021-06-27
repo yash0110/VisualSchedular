@@ -112,6 +112,7 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.purpleAccent[700],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -119,7 +120,12 @@ class _AddTaskState extends State<AddTask> {
                 context, MaterialPageRoute(builder: (context) => Schedule()));
           },
         ),
-        title: Text('Add Task'),
+        title: Text('Add Task',
+          style: TextStyle(
+            fontFamily: 'title',
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

@@ -101,30 +101,51 @@ class _TaskViewState extends State<TaskView> {
       TaskData task = _currentTask!;
 
       // Widget when we find a task
-      return GestureDetector(
-        onLongPress: _longPress,
-        child: Column(
-          children: [
-            Center(
-                child: Text(
-              task.name,
-              style:
-                  DefaultTextStyle.of(context).style.apply(fontSizeFactor: 3.0),
-            )),
-            Center(
-                child: Text(
-              '${task.time.hour}:${task.time.minute}',
-              style:
-                  DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
-            )),
-            Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.contain,
-                        image: FileImage(File(
-                            task.path.substring(7, task.path.length - 1)))))),
-            Image.file(File(task.path.substring(7, task.path.length - 1))),
-          ],
+      return Container(
+        decoration: new BoxDecoration(
+          borderRadius: new BorderRadius.circular(16.0),
+          color: Colors.white,
+        ),
+        margin: EdgeInsets.fromLTRB(15, 15,15, 0),
+        padding: EdgeInsets.all(20),
+        child: GestureDetector(
+          onLongPress: _longPress,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+
+              Container(
+                  height: 600,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.contain,
+                          image: FileImage(
+                              File(
+                                task.path.substring(7, task.path.length - 1),
+                            ),
+                          ),
+                      ),
+                  ),
+              ),
+              //Image.file(File(task.path.substring(7, task.path.length - 1))),
+              Center(
+                  child: Text(
+                    task.name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 50,
+                    ),
+                  )),
+              Center(
+                  child: Text(
+                'Longpress screen after task is done',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              )),
+
+            ],
+          ),
         ),
       );
     } else {
