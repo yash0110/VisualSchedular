@@ -143,22 +143,25 @@ class _AddTaskState extends State<AddTask> {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: (){
-                    _getFromCamera();
-                  },
-                  child: Text("TAKE A PICTURE"),
-                ),
-                ElevatedButton(
-                  onPressed: (){
-                    _getFromGallery();
-                  },
-                  child: Text("PICK FROM GALLERY"),
-                ),
-              ]
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: (){
+                      _getFromCamera();
+                    },
+                    child: Text("TAKE A PICTURE"),
+                  ),
+                  ElevatedButton(
+                    onPressed: (){
+                      _getFromGallery();
+                    },
+                    child: Text("PICK FROM GALLERY"),
+                  ),
+                ]
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
