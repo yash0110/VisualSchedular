@@ -5,36 +5,6 @@ import 'dart:io';
 import 'task_data.dart';
 import 'package:path_provider/path_provider.dart';
 
-// List Plan = [
-//   {
-//     'name': 'Dhruv',
-//   },
-//   {
-//     'name': 'Dhruv',
-//   },
-//   {
-//     'name': 'Dhruv',
-//   },
-//   {
-//     'name': 'Dhruv',
-//   },
-//   {
-//     'name': 'Dhruv',
-//   },
-//   {
-//     'name': 'Dhruv',
-//   },
-//   {
-//     'name': 'Dhruv',
-//   },
-//   {
-//     'name': 'Dhruv',
-//   },
-//   {
-//     'name': 'Dhruv',
-//   },
-// ];
-
 class Schedule extends StatefulWidget {
   const Schedule({Key? key}) : super(key: key);
 
@@ -55,7 +25,7 @@ class _ScheduleState extends State<Schedule> {
         setState(() {
           _taskList = value;
           for(int i=0;i<_taskList.length;i++)
-            print(_taskList[i].path);
+            print(_taskList[i].name);
         })
     ).onError((error, stackTrace) => print(error));
   }

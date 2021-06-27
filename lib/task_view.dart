@@ -177,6 +177,7 @@ class _TaskViewState extends State<TaskView> {
               decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.contain,
+                      // image: Image.network(src)
                       image: FileImage(File(
                           task.path.substring(7, task.path.length - 1)))))),
           Image.file(File(task.path.substring(7, task.path.length - 1))),
