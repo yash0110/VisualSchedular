@@ -115,7 +115,7 @@ class _ScheduleState extends State<Schedule> {
                               child: Text(
                                 _taskList[index].name,
                                 style: TextStyle(
-                                    fontSize: 30,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
                               ),
