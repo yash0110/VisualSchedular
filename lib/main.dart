@@ -96,7 +96,7 @@ class HomePage extends StatelessWidget {
         'Scheduling made Accessible',
         style: TextStyle(
           fontFamily: 'italic',
-          fontSize: 20,
+          fontSize: 15,
           color: Colors.deepPurple[600],
         ),
 
