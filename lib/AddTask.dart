@@ -112,7 +112,7 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purpleAccent[700],
+        backgroundColor: Colors.deepPurple[600],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -128,6 +128,7 @@ class _AddTaskState extends State<AddTask> {
           ),),
         centerTitle: true,
       ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -158,19 +159,27 @@ class _AddTaskState extends State<AddTask> {
                     onPressed: (){
                       _getFromCamera();
                     },
-                    child: Text("TAKE A PICTURE"),
+                    child: Text(
+                        'TAKE A PICTURE',
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.deepPurple[600],
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: (){
                       _getFromGallery();
                     },
                     child: Text("PICK FROM GALLERY"),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.deepPurple[600],
+                    ),
                   ),
                 ]
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(40,8,40,8),
               child: TextFormField(
                 controller: textEditingControllerName,
                 onChanged: (value) => name = value,
@@ -189,6 +198,9 @@ class _AddTaskState extends State<AddTask> {
             ElevatedButton(
               onPressed: _selectTime,
               child: Text('SELECT TIME'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple[600],
+              ),
             ),
             SizedBox(height: 8),
             Text(
@@ -200,7 +212,7 @@ class _AddTaskState extends State<AddTask> {
                 height: 40,
                 width: 150,
                 child: RaisedButton(
-                  color: Colors.blue,
+                  color: Colors.deepPurple[600],
                   onPressed: () {
                     _saveTaskList();
                     Navigator.pushReplacement(context,
@@ -209,6 +221,7 @@ class _AddTaskState extends State<AddTask> {
                   child: Text(
                     "SAVE",
                     style: TextStyle(fontSize: 20, color: Colors.white),
+
                   ),
                 ),
               ),
