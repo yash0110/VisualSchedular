@@ -28,6 +28,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: Icon(Icons.calendar_today),
           backgroundColor: Colors.deepPurple[600],
